@@ -10,17 +10,10 @@ namespace SupportBank
     {
         static void Main(string[] args)
         {
-            CSVParserClass parserCSV = new CSVParserClass();
             string directory = @"\Work\Training\SupportBank\Files\Transactions2014.csv";
+            AccountsHandler accounts = new AccountsHandler(directory);
 
-            foreach (List<string> line in parserCSV.ParseFile(directory))
-            {
-                foreach (string value in line)
-                {
-                    Console.Write(value + " | ");
-                }
-                Console.WriteLine();
-            }
+            accounts.ListAllOwed();
             Console.ReadLine();
         }
     }
