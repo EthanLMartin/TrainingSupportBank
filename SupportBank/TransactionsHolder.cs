@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace SupportBank
 {
-    class AccountsHolder
+    class TransactionsHolder
     {
         private List<Transaction> transactions;
         private Dictionary<string, Account> accounts = new Dictionary<string, Account>();
 
-        public AccountsHolder(List<Transaction> transactions)
+        public TransactionsHolder(List<Transaction> transactions)
         {
             this.transactions = transactions;
             MakeUniqueAccounts(this.transactions);
@@ -32,7 +32,7 @@ namespace SupportBank
         public void ListTransactions(string name)
         {
             List<Transaction> transactions = getTransactionsOf(name);
-            Console.WriteLine("Date | From | To | Narrative | Amount");
+            Console.WriteLine("Date       | From | To | Narrative | Amount");
             foreach (var transaction in transactions)
             {
                 Console.WriteLine(transaction.ToString());

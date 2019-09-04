@@ -19,11 +19,11 @@ namespace SupportBank
             string gap = " | ";
             string result = "";
 
-            result += this.date.ToString();
+            result += date.ToString().Split(' ')[0];
             result += gap;
-            result += this.from;
+            result += from;
             result += gap;
-            result += this.to;
+            result += to;
             result += gap;
             result += narrative;
             result += gap;
