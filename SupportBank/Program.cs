@@ -16,11 +16,16 @@ namespace SupportBank
         {
             LoggerSetup();
 
+            string directory = @"\Work\Training\SupportBank\Files\Transactions2013.json";
             //string directory = @"\Work\Training\SupportBank\Files\Transactions2014.csv";
-            string directory = @"\Work\Training\SupportBank\Files\DodgyTransactions2015.csv";
+            //string directory = @"\Work\Training\SupportBank\Files\DodgyTransactions2015.csv";
 
-            CSVParser parserCSV = new CSVParser();
-            List<Transaction> transactions = parserCSV.ParseFile(directory);
+            //CSVParser parserCSV = new CSVParser();
+            //List<Transaction> transactions = parserCSV.ParseFile(directory);
+
+            JSONParser parserJSON = new JSONParser();
+            List<Transaction> transactions = parserJSON.ParseFile(directory);
+
             TransactionsRepository transactionRepository = new TransactionsRepository(transactions);
 
             while (true)
