@@ -38,12 +38,8 @@ namespace SupportBank
                 accounts.Add(account);
             }
 
+            logger.Log(LogLevel.Debug, "Successfully updated accounts.");
             return accounts;
-        }
-
-        public void ListTransactions(string name)
-        {
-            
         }
 
         private void MakeUniqueAccounts(List<Transaction> transactions)
@@ -60,6 +56,7 @@ namespace SupportBank
             {
                 accountNamePairs.Add(name, new Account(name));
             }
+            logger.Log(LogLevel.Debug, "Successfully created " + uniqueNames.Count.ToString() + " accounts.");
 
 
         }

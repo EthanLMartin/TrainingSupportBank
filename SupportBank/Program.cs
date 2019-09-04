@@ -14,18 +14,14 @@ namespace SupportBank
 
         static void Main(string[] args)
         {
-            var config = new LoggingConfiguration();
-            var target = new FileTarget { FileName = @"C:\Work\Logs\SupportBank.log", Layout = @"${longdate} ${level} - ${logger}: ${message}" };
-            config.AddTarget("File Logger", target);
-            config.LoggingRules.Add(new LoggingRule("*", LogLevel.Debug, target));
-            LogManager.Configuration = config;
+            LoggerSetup();
 
             //string directory = @"\Work\Training\SupportBank\Files\Transactions2014.csv";
             string directory = @"\Work\Training\SupportBank\Files\DodgyTransactions2015.csv";
 
             CSVParser parserCSV = new CSVParser();
             List<Transaction> transactions = parserCSV.ParseFile(directory);
-            TransactionsRepository accounts = new TransactionsRepository(transactions);
+            TransactionsRepository transactionRepository = new TransactionsRepository(transactions);
 
             while (true)
             {
@@ -34,11 +30,15 @@ namespace SupportBank
                 switch (selection)
                 {
                     case UserChoice.All:
-                        All(accounts);
+                        promptHandler.DisplayAllOwed(transactionRepository.GetUpdatedAccounts());
                         break;
+
                     case UserChoice.Account:
-                        Account(accounts);
+                        string name = promptHandler.AskForInput("Enter an account name to list all transactions");
+                        List<Transaction> filteredTransactions = transactionRepository.GetTransactions(name);
+                        promptHandler.DisplayAllTransactions(filteredTransactions);
                         break;
+
                     case UserChoice.Exit:
                         return;
                 }
@@ -48,20 +48,13 @@ namespace SupportBank
             }
         }
 
-        static void All(TransactionsRepository accounts)
+        static void LoggerSetup()
         {
-            foreach (Account account in accounts.GetUpdatedAccounts())
-            {
-                Console.WriteLine(account.Name + " is owed: " + account.Balance.ToString());
-            };
-        }
-
-        static void Account(TransactionsRepository accounts)
-        {
-            Console.WriteLine("Enter an account name to list all transactions");
-            string name = Console.ReadLine();
-            List<Transaction> filteredTransactions = accounts.GetTransactions(name);
-            promptHandler.DisplayAll(filteredTransactions);
+            var config = new LoggingConfiguration();
+            var target = new FileTarget { FileName = @"C:\Work\Logs\SupportBank.log", Layout = @"${longdate} ${level} - ${logger}: ${message}" };
+            config.AddTarget("File Logger", target);
+            config.LoggingRules.Add(new LoggingRule("*", LogLevel.Debug, target));
+            LogManager.Configuration = config;
         }
     }
 }

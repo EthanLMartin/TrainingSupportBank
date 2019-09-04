@@ -16,13 +16,13 @@ namespace SupportBank
             List<string> lines = File.ReadAllLines(directory).ToList();
             List<Transaction> transactions = new List<Transaction>();
 
-            logger.Log(LogLevel.Warn, "First line of CSV should be titles. If the first line is a transaction it will be ignored");
+            logger.Log(LogLevel.Debug, "Reading file: " + directory);
+            logger.Log(LogLevel.Info, "First line of CSV should be titles. If the first line is a transaction it will be ignored");
             lines.RemoveAt(0);
 
             foreach (string line in lines)
             {
-                Transaction transaction = new Transaction();
-                bool success = LineIntoTransaction(line, transaction);
+                bool success = TryParseLine(line, out Transaction transaction);
                 if (success)
                 {
                     transactions.Add(transaction);
@@ -32,11 +32,15 @@ namespace SupportBank
                 }
             }
 
+            logger.Log(LogLevel.Debug, "Finishing reading file " + directory);
+            logger.Log(LogLevel.Debug, transactions.Count.ToString() + " transactions read, " + (lines.Count - transactions.Count).ToString() + " lines ignored");
+
             return transactions;
         }
 
-        private bool LineIntoTransaction(string line, Transaction transaction)
+        private bool TryParseLine(string line, out Transaction transaction)
         {
+            transaction = new Transaction();
             string[] data = line.Split(',');
 
             try

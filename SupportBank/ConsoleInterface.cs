@@ -26,7 +26,7 @@ namespace SupportBank
             return result;
         }
 
-        public void DisplayAll(List<Transaction> transactions)
+        public void DisplayAllTransactions(List<Transaction> transactions)
         {
             if (transactions.Count() == 0) {
                 Console.WriteLine("No transactions found for account name");
@@ -72,6 +72,19 @@ namespace SupportBank
                     Console.WriteLine("Invalid selection, please try again.");
                 }
             }
+        }
+        public void DisplayAllOwed(List<Account> accounts)
+        {
+            foreach (Account account in accounts)
+            {
+                Console.WriteLine(account.Name + " is owed: " + account.Balance.ToString());
+            };
+        }
+
+        public string AskForInput(string message)
+        {
+            Console.WriteLine(message);
+            return Console.ReadLine();
         }
     }
 }
