@@ -6,33 +6,41 @@ using System.Threading.Tasks;
 
 namespace SupportBank
 {
-    class TransactionsHolder
+    class TransactionsRepository
     {
         private List<Transaction> transactions;
-        private Dictionary<string, Account> accounts = new Dictionary<string, Account>();
+        private Dictionary<string, Account> accountNamePairs = new Dictionary<string, Account>();
 
-        public TransactionsHolder(List<Transaction> transactions)
+        public TransactionsRepository(List<Transaction> transactions)
         {
             this.transactions = transactions;
             MakeUniqueAccounts(this.transactions);
         }
 
-        public void ListAllOwed()
+        public List<Account> GetUpdatedAccounts()
         {
-            foreach(var pair in this.accounts)
+            List<Account> accounts = new List<Account>();
+            foreach (var pair in accountNamePairs)
             {
-                string name = pair.Key;
                 Account account = pair.Value;
-                List<Transaction> transactions = getTransactionsOf(name);
+                string name = pair.Key;
 
-                Console.WriteLine(name + " owes: " + account.GetOwed(transactions).ToString());
+                if (account.Balance == null)
+                {
+                    List<Transaction> transactions = GetTransactionsOf(name);
+                    account.ProcessTransactions(transactions);
+                }
+
+                accounts.Add(account);
             }
+
+            return accounts;
         }
 
         public void ListTransactions(string name)
         {
             ConsoleFormatting formatter = new ConsoleFormatting();
-            List<Transaction> transactions = getTransactionsOf(name);
+            List<Transaction> transactions = GetTransactionsOf(name);
             formatter.DisplayAll(transactions);
         }
 
@@ -47,13 +55,13 @@ namespace SupportBank
 
             foreach (string name in uniqueNames)
             {
-                accounts.Add(name, new Account(name));
+                accountNamePairs.Add(name, new Account(name));
             }
 
 
         }
 
-        private List<Transaction> getTransactionsOf(string name)
+        private List<Transaction> GetTransactionsOf(string name)
         {
             return (this.transactions.Where(transaction => (transaction.to == name || transaction.from == name))).ToList();
         }

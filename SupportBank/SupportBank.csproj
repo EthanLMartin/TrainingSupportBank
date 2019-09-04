@@ -44,7 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConsoleFormatting.cs" />
-    <Compile Include="TransactionsHolder.cs" />
+    <Compile Include="TransactionsRepository.cs" />
     <Compile Include="Account.cs" />
     <Compile Include="CSVParser.cs" />
     <Compile Include="Program.cs" />

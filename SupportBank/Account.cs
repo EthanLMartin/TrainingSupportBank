@@ -8,32 +8,32 @@ namespace SupportBank
 {
     public class Account
     {
-        public string name;
-        private double? balance = null;
+        public string Name { get; set; }
+        public double? Balance { get; private set; } = null;
 
         public Account(string name) {
-            this.name = name;
+            this.Name = name;
         }
 
-        public double? GetOwed(List<Transaction> transactions)
+        public double? ProcessTransactions(List<Transaction> transactions)
         {
-            if (balance == null)
+            if (Balance == null)
             {
-                balance = 0;
+                Balance = 0;
                 foreach (Transaction transaction in transactions)
                 {
-                    if (transaction.from == name)
+                    if (transaction.from == Name)
                     {
-                        balance -= transaction.amount;
+                        Balance -= transaction.amount;
                     }
-                    if (transaction.to == name)
+                    if (transaction.to == Name)
                     {
-                        balance += transaction.amount;
+                        Balance += transaction.amount;
                     }
                 }
             }
 
-            return this.balance;
+            return this.Balance;
         }
     }
 }

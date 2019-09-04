@@ -13,7 +13,7 @@ namespace SupportBank
             string directory = @"\Work\Training\SupportBank\Files\Transactions2014.csv";
             CSVParser parserCSV = new CSVParser();
             List<Transaction> transactions = parserCSV.ParseFile(directory);
-            TransactionsHolder accounts = new TransactionsHolder(transactions);
+            TransactionsRepository accounts = new TransactionsRepository(transactions);
             PromptHandlerClass promptHandler = new PromptHandlerClass();
 
             while (true)
@@ -23,7 +23,10 @@ namespace SupportBank
                 switch (selection)
                 {
                     case UserChoice.All:
-                        accounts.ListAllOwed();
+                        foreach (Account account in accounts.GetUpdatedAccounts())
+                        {
+                            Console.WriteLine(account.Name + " is owed: " + account.Balance.ToString());
+                        };
                         break;
                     case UserChoice.Account:
                         Console.WriteLine("Enter an account name to list all transactions");
