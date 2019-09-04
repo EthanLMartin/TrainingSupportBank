@@ -31,12 +31,9 @@ namespace SupportBank
 
         public void ListTransactions(string name)
         {
+            ConsoleFormatting formatter = new ConsoleFormatting();
             List<Transaction> transactions = getTransactionsOf(name);
-            Console.WriteLine("Date       | From | To | Narrative | Amount");
-            foreach (var transaction in transactions)
-            {
-                Console.WriteLine(transaction.ToString());
-            }
+            formatter.DisplayAll(transactions);
         }
 
         private void MakeUniqueAccounts(List<Transaction> transactions)
