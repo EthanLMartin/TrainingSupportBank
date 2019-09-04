@@ -28,7 +28,7 @@ namespace SupportBank
         private Transaction CreateTransation(string[] data)
         {
             Transaction transaction = new Transaction();
-            // transaction.date = DateTime.Parse(data[0], "dd-MM-yy");
+            transaction.date = DateTime.Parse(data[0]);
             transaction.from = data[1];
             transaction.to = data[2];
             transaction.narrative = data[3];

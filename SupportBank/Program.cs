@@ -11,9 +11,11 @@ namespace SupportBank
         static void Main(string[] args)
         {
             string directory = @"\Work\Training\SupportBank\Files\Transactions2014.csv";
-            AccountsHandler accounts = new AccountsHandler(directory);
+            CSVParser parserCSV = new CSVParser();
+            List<Transaction> transactions = parserCSV.ParseFile(directory);
 
-            accounts.ListAllOwed();
+            AccountsHolder accounts = new AccountsHolder(transactions);
+            accounts.ListTransactions("Todd");
             Console.ReadLine();
         }
     }
