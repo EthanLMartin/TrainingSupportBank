@@ -10,6 +10,8 @@ namespace SupportBank
 {
     class Program
     {
+        private static ConsoleInterface promptHandler = new ConsoleInterface();
+
         static void Main(string[] args)
         {
             var config = new LoggingConfiguration();
@@ -24,7 +26,6 @@ namespace SupportBank
             CSVParser parserCSV = new CSVParser();
             List<Transaction> transactions = parserCSV.ParseFile(directory);
             TransactionsRepository accounts = new TransactionsRepository(transactions);
-            PromptHandlerClass promptHandler = new PromptHandlerClass();
 
             while (true)
             {
@@ -33,15 +34,10 @@ namespace SupportBank
                 switch (selection)
                 {
                     case UserChoice.All:
-                        foreach (Account account in accounts.GetUpdatedAccounts())
-                        {
-                            Console.WriteLine(account.Name + " is owed: " + account.Balance.ToString());
-                        };
+                        All(accounts);
                         break;
                     case UserChoice.Account:
-                        Console.WriteLine("Enter an account name to list all transactions");
-                        string name = Console.ReadLine();
-                        accounts.ListTransactions(name);
+                        Account(accounts);
                         break;
                     case UserChoice.Exit:
                         return;
@@ -50,6 +46,22 @@ namespace SupportBank
                 Console.WriteLine("-----------------");
 
             }
+        }
+
+        static void All(TransactionsRepository accounts)
+        {
+            foreach (Account account in accounts.GetUpdatedAccounts())
+            {
+                Console.WriteLine(account.Name + " is owed: " + account.Balance.ToString());
+            };
+        }
+
+        static void Account(TransactionsRepository accounts)
+        {
+            Console.WriteLine("Enter an account name to list all transactions");
+            string name = Console.ReadLine();
+            List<Transaction> filteredTransactions = accounts.GetTransactions(name);
+            promptHandler.DisplayAll(filteredTransactions);
         }
     }
 }

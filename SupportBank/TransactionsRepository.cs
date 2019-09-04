@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,8 @@ namespace SupportBank
 {
     class TransactionsRepository
     {
+        private static readonly ILogger logger = LogManager.GetCurrentClassLogger();
+
         private List<Transaction> transactions;
         private Dictionary<string, Account> accountNamePairs = new Dictionary<string, Account>();
 
@@ -19,6 +22,7 @@ namespace SupportBank
 
         public List<Account> GetUpdatedAccounts()
         {
+            logger.Log(LogLevel.Debug, "Updating accounts");
             List<Account> accounts = new List<Account>();
             foreach (var pair in accountNamePairs)
             {
@@ -27,7 +31,7 @@ namespace SupportBank
 
                 if (account.Balance == null)
                 {
-                    List<Transaction> transactions = GetTransactionsOf(name);
+                    List<Transaction> transactions = GetTransactions(name);
                     account.ProcessTransactions(transactions);
                 }
 
@@ -39,9 +43,7 @@ namespace SupportBank
 
         public void ListTransactions(string name)
         {
-            ConsoleFormatting formatter = new ConsoleFormatting();
-            List<Transaction> transactions = GetTransactionsOf(name);
-            formatter.DisplayAll(transactions);
+            
         }
 
         private void MakeUniqueAccounts(List<Transaction> transactions)
@@ -53,6 +55,7 @@ namespace SupportBank
                 uniqueNames.Add(transaction.to);
             }
 
+            logger.Log(LogLevel.Debug, "Creating accounts");
             foreach (string name in uniqueNames)
             {
                 accountNamePairs.Add(name, new Account(name));
@@ -61,7 +64,7 @@ namespace SupportBank
 
         }
 
-        private List<Transaction> GetTransactionsOf(string name)
+        public List<Transaction> GetTransactions(string name)
         {
             return (this.transactions.Where(transaction => (transaction.to == name || transaction.from == name))).ToList();
         }

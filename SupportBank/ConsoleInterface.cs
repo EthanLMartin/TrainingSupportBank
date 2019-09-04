@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SupportBank
 {
-    class ConsoleFormatting
+    class ConsoleInterface
     {
         private string TransactionString(Transaction transaction, int fromGap, int toGap, int narrativeGap)
         {
@@ -47,6 +47,30 @@ namespace SupportBank
             foreach (var transaction in transactions)
             {
                 Console.WriteLine(TransactionString(transaction ,fromGap, toGap, narrativeGap));
+            }
+        }
+        public UserChoice PromptSelection()
+        {
+            while (true)
+            {
+                Console.WriteLine("Type \"1\" to list all owed, \"2\" for the transactions for a singular name, \"Q\" to exit");
+                string input = Console.ReadLine();
+                if (input == "1")
+                {
+                    return UserChoice.All;
+                }
+                else if (input == "2")
+                {
+                    return UserChoice.Account;
+                }
+                else if (input == "Q")
+                {
+                    return UserChoice.Exit;
+                }
+                else
+                {
+                    Console.WriteLine("Invalid selection, please try again.");
+                }
             }
         }
     }
