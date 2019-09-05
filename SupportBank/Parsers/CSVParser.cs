@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace SupportBank
 {
-    class CSVParser
+    class CSVParser : Parser
     {
         private static readonly ILogger logger = LogManager.GetCurrentClassLogger();
-        public List<Transaction> ParseFile(string directory)
+        public override List<Transaction> ParseFile(string directory)
         {
             List<string> lines = File.ReadAllLines(directory).ToList();
             List<Transaction> transactions = new List<Transaction>();
