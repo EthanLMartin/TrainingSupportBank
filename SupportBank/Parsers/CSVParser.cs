@@ -11,7 +11,7 @@ namespace SupportBank
     class CSVParser : Parser
     {
         private static readonly ILogger logger = LogManager.GetCurrentClassLogger();
-        public override List<Transaction> ParseFile(string directory)
+        public List<Transaction> ParseFile(string directory)
         {
             List<string> lines = File.ReadAllLines(directory).ToList();
             List<Transaction> transactions = new List<Transaction>();

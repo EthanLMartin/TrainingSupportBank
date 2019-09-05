@@ -6,11 +6,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
+
 namespace SupportBank
 {
     class Program
     {
         private static ConsoleInterface promptHandler = new ConsoleInterface();
+        private static readonly ILogger logger = LogManager.GetCurrentClassLogger();
 
         static void Main(string[] args)
         {
@@ -44,11 +47,19 @@ namespace SupportBank
                         promptHandler.DisplayAllTransactions(filteredTransactions);
                         break;
 
+                    case UserChoice.Import:
+                        TransactionsRepository attemptedRepo = ImportFile();
+                        if (attemptedRepo != null)
+                        {
+                            transactionRepository = attemptedRepo;
+                        }
+                        break;
+
                     case UserChoice.Exit:
                         return;
                 }
 
-                Console.WriteLine("-----------------");
+                promptHandler.WriteSeparator();
 
             }
         }
@@ -60,6 +71,29 @@ namespace SupportBank
             config.AddTarget("File Logger", target);
             config.LoggingRules.Add(new LoggingRule("*", LogLevel.Debug, target));
             LogManager.Configuration = config;
+        }
+        
+        static TransactionsRepository ImportFile()
+        {
+            string directory = promptHandler.AskForInput("Please input a file for import");
+            if (File.Exists(directory))
+            {
+                ParserSelector parserSelector = new ParserSelector();
+                Parser parser = parserSelector.SelectParser(directory);
+                if (parser == null)
+                {
+                    Console.WriteLine("Extension not recognised, please try again.");
+                    logger.Log(LogLevel.Debug, "Extension type of " + directory + " is not recognised");
+                } else
+                {
+                    return new TransactionsRepository(parser.ParseFile(directory));
+                }
+            }
+            else
+            {
+                Console.WriteLine("File not found please try again");
+            }
+            return null;
         }
     }
 }

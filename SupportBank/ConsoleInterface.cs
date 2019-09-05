@@ -53,8 +53,15 @@ namespace SupportBank
         {
             while (true)
             {
-                Console.WriteLine("Type \"1\" to list all owed, \"2\" for the transactions for a singular name, \"Q\" to exit");
+                Console.WriteLine("Please select an option: \n " +
+                    "1. List all owed \n " +
+                    "2. List transactions for a singular name \n " +
+                    "3. Import a file \n " +
+                    "Q. Exit the application");
+                WriteSeparator();
+
                 string input = Console.ReadLine();
+                WriteSeparator();
                 if (input == "1")
                 {
                     return UserChoice.All;
@@ -62,6 +69,10 @@ namespace SupportBank
                 else if (input == "2")
                 {
                     return UserChoice.Account;
+                }
+                else if (input == "3")
+                {
+                    return UserChoice.Import;
                 }
                 else if (input == "Q")
                 {
@@ -73,6 +84,12 @@ namespace SupportBank
                 }
             }
         }
+
+        public void WriteSeparator()
+        {
+            Console.WriteLine("-----------------");
+        }
+
         public void DisplayAllOwed(List<Account> accounts)
         {
             foreach (Account account in accounts)
@@ -84,7 +101,9 @@ namespace SupportBank
         public string AskForInput(string message)
         {
             Console.WriteLine(message);
-            return Console.ReadLine();
+            string input = Console.ReadLine();
+            WriteSeparator();
+            return input;
         }
     }
 }

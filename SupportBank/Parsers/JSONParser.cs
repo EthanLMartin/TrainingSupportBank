@@ -12,7 +12,7 @@ namespace SupportBank
     class JSONParser : Parser
     {
         private static readonly ILogger logger = LogManager.GetCurrentClassLogger();
-        public override List<Transaction> ParseFile(string directory)
+        public List<Transaction> ParseFile(string directory)
         {          
             logger.Log(LogLevel.Debug, "Reading file: " + directory);
             string file = File.ReadAllText(directory);

@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace SupportBank
 {
-    abstract class Parser 
+    interface Parser 
     {
-        public abstract List<Transaction> ParseFile(string directory);
+        List<Transaction> ParseFile(string directory);
     }
 }
