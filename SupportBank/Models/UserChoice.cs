@@ -11,6 +11,9 @@ namespace SupportBank
         All,
         Account,
         Import,
+        JSON,
+        XML,
+        CSV,
         Exit
     }
 }

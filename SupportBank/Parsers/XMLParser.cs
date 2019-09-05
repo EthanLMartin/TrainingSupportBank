@@ -31,6 +31,7 @@ namespace SupportBank
                     logger.Log(LogLevel.Error, "Error in entry of XML file " + directory + "\n Error message: " + e);
                 }
             }
+            logger.Log(LogLevel.Debug, "File reading finished. Sucessfully read "+ transactions.Count.ToString() + " transactions.");
 
             return transactions;
         }
@@ -43,9 +44,9 @@ namespace SupportBank
             XElement parties = node.Descendants("Parties").FirstOrDefault();
             transaction.from = parties.Element("From").Value;
             transaction.to = parties.Element("To").Value;
+
             transaction.narrative = node.Element("Description").Value;
             transaction.amount = Convert.ToDecimal(node.Element("Value").Value);
-
 
             return transaction;
         }

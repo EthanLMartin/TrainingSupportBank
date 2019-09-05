@@ -37,7 +37,7 @@ namespace SupportBank
 
             while (true)
             {
-                UserChoice selection = promptHandler.PromptSelection();
+                UserChoice selection = promptHandler.PromptMenuSelection();
 
                 switch (selection)
                 {

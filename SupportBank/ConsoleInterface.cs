@@ -49,7 +49,7 @@ namespace SupportBank
                 Console.WriteLine(TransactionString(transaction ,fromGap, toGap, narrativeGap));
             }
         }
-        public UserChoice PromptSelection()
+        public UserChoice PromptMenuSelection()
         {
             while (true)
             {
@@ -104,6 +104,43 @@ namespace SupportBank
             string input = Console.ReadLine();
             WriteSeparator();
             return input;
+        }
+
+        public UserChoice PromptParserSelection()
+        {
+            while (true)
+            {
+                Console.WriteLine("File type not recognised, please select a parser: \n " +
+                    "1. JSON \n " +
+                    "2. CSV \n " +
+                    "3. XML \n " +
+                    "Q. Exit Selection and Return to Menu");
+
+                WriteSeparator();
+
+                string input = Console.ReadLine();
+                WriteSeparator();
+                if (input == "1" || input == "JSON")
+                {
+                    return UserChoice.JSON;
+                }
+                else if (input == "2" || input == "CSV")
+                {
+                    return UserChoice.CSV;
+                }
+                else if (input == "3" || input == "XML")
+                {
+                    return UserChoice.XML;
+                }
+                else if (input == "Q")
+                {
+                    return UserChoice.Exit;
+                }
+                else
+                {
+                    Console.WriteLine("Invalid selection, please try again.");
+                }
+            }
         }
     }
 }
