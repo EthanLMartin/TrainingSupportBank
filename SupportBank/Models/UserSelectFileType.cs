@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SupportBank
 {
-    public enum UserSelectParser
+    public enum UserSelectFileType
     {
         JSON,
         CSV,

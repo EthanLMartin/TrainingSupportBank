@@ -13,7 +13,6 @@ namespace SupportBank
     class Program
     {
         private static ConsoleInterface promptHandler = new ConsoleInterface();
-        private static readonly ILogger logger = LogManager.GetCurrentClassLogger();
 
         static void Main(string[] args)
         {
@@ -23,21 +22,21 @@ namespace SupportBank
 
             while (true)
             {
-                UserChoice selection = promptHandler.PromptMenuSelection();
+                UserChoiceMainMenu selection = promptHandler.PromptMenuSelection();
 
                 switch (selection)
                 {
-                    case UserChoice.All:
+                    case UserChoiceMainMenu.All:
                         promptHandler.DisplayAllOwed(transactionRepository.GetAccounts());
                         break;
 
-                    case UserChoice.Account:
+                    case UserChoiceMainMenu.Account:
                         string name = promptHandler.AskForInput("Enter an account name to list all transactions");
                         List<Transaction> filteredTransactions = transactionRepository.GetTransactions(name);
                         promptHandler.DisplayAllTransactions(filteredTransactions);
                         break;
 
-                    case UserChoice.Import:
+                    case UserChoiceMainMenu.Import:
                         List<Transaction> attemptedImport = ImportFile();
                         if (attemptedImport != null)
                         {
@@ -45,7 +44,11 @@ namespace SupportBank
                         }
                         break;
 
-                    case UserChoice.Exit:
+                    case UserChoiceMainMenu.Export:
+                        string directory = @"C:\Work\Training\SupportBank\Files\Export";
+                        (new JSONExporter()).ExportTransactions(transactionRepository.GetTransactions(), directory);
+                        break;
+                    case UserChoiceMainMenu.Exit:
                         return;
                 }
 

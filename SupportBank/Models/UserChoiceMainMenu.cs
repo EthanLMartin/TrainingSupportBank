@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace SupportBank
 {
-    public enum UserChoice
+    public enum UserChoiceMainMenu
     {
         All,
         Account,
         Import,
+        Export,
         Exit
     }
 }

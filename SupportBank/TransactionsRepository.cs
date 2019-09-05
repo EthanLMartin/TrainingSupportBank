@@ -75,8 +75,12 @@ namespace SupportBank
             logger.Log(LogLevel.Debug, "Successfully updated " + uniqueNames.Count.ToString() + " accounts.");
         }
 
-        public List<Transaction> GetTransactions(string name, List<Transaction> transactions = null)
+        public List<Transaction> GetTransactions(string name = null, List<Transaction> transactions = null)
         {
+            if (name == null)
+            {
+                return this.transactions;
+            }
             if (transactions == null) {
                 transactions = this.transactions;
             }

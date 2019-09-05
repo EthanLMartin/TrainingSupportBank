@@ -18,17 +18,17 @@ namespace SupportBank
             switch (extension)
             {
                 case ".json":
-                    parser = CreateParser(UserSelectParser.JSON);
+                    parser = CreateParser(UserSelectFileType.JSON);
                     break;
                 case ".csv":
-                    parser = CreateParser(UserSelectParser.CSV);
+                    parser = CreateParser(UserSelectFileType.CSV);
                     break;
                 case ".xml":
-                    parser = CreateParser(UserSelectParser.XML);
+                    parser = CreateParser(UserSelectFileType.XML);
                     break;
                 default:
-                    UserSelectParser choice = consoleInterface.PromptParserSelection();
-                    if (choice != UserSelectParser.Return)
+                    UserSelectFileType choice = consoleInterface.PromptFileTypeSelection("File type not recongised.");
+                    if (choice != UserSelectFileType.Return)
                     {
                         parser = CreateParser(choice);
                     }
@@ -38,15 +38,15 @@ namespace SupportBank
             return parser;
         }
 
-        private IParser CreateParser(UserSelectParser choice)
+        private IParser CreateParser(UserSelectFileType choice)
         {
             switch (choice)
             {
-                case UserSelectParser.JSON:
+                case UserSelectFileType.JSON:
                     return new JSONParser();
-                case UserSelectParser.CSV:
+                case UserSelectFileType.CSV:
                     return new CSVParser();
-                case UserSelectParser.XML:
+                case UserSelectFileType.XML:
                     return new XMLParser();
             }
             return null;

@@ -8,6 +8,84 @@ namespace SupportBank
 {
     class ConsoleInterface
     {
+        public UserChoiceMainMenu PromptMenuSelection()
+        {
+            while (true)
+            {
+                Console.WriteLine("Please select an option: \n " +
+                    "1. List all owed \n " +
+                    "2. List transactions for a singular name \n " +
+                    "3. Import a file \n " +
+                    "4. Export transactions as JSON \n " +
+                    "Q. Exit the application");
+                WriteSeparator();
+
+                string input = Console.ReadLine();
+                WriteSeparator();
+                if (input == "1")
+                {
+                    return UserChoiceMainMenu.All;
+                }
+                else if (input == "2")
+                {
+                    return UserChoiceMainMenu.Account;
+                }
+                else if (input == "3")
+                {
+                    return UserChoiceMainMenu.Import;
+                }
+                else if (input == "4")
+                {
+                    return UserChoiceMainMenu.Export;
+                }
+                else if (input == "Q")
+                {
+                    return UserChoiceMainMenu.Exit;
+                }
+                else
+                {
+                    Console.WriteLine("Invalid selection, please try again.");
+                }
+            }
+        }
+
+        public UserSelectFileType PromptFileTypeSelection(string message = "")
+        {
+            while (true)
+            {
+                Console.WriteLine(message + "\nPlease select the file type: \n " +
+                    "1. JSON \n " +
+                    "2. CSV \n " +
+                    "3. XML \n " +
+                    "Q. Exit Selection and Return to Menu");
+
+                WriteSeparator();
+
+                string input = Console.ReadLine();
+                WriteSeparator();
+                if (input == "1" || input == "JSON")
+                {
+                    return UserSelectFileType.JSON;
+                }
+                else if (input == "2" || input == "CSV")
+                {
+                    return UserSelectFileType.CSV;
+                }
+                else if (input == "3" || input == "XML")
+                {
+                    return UserSelectFileType.XML;
+                }
+                else if (input == "Q")
+                {
+                    return UserSelectFileType.Return;
+                }
+                else
+                {
+                    Console.WriteLine("Invalid selection, please try again.");
+                }
+            }
+        }
+
         private string TransactionString(Transaction transaction, int fromGap, int toGap, int narrativeGap)
         {
             string gap = " | ";
@@ -46,7 +124,7 @@ namespace SupportBank
             Console.WriteLine(firstLine);
             foreach (var transaction in transactions)
             {
-                Console.WriteLine(TransactionString(transaction ,fromGap, toGap, narrativeGap));
+                Console.WriteLine(TransactionString(transaction, fromGap, toGap, narrativeGap));
             }
         }
 
@@ -56,79 +134,6 @@ namespace SupportBank
             {
                 Console.WriteLine(account.Name + " is owed: " + account.Balance.ToString());
             };
-        }
-
-        public UserChoice PromptMenuSelection()
-        {
-            while (true)
-            {
-                Console.WriteLine("Please select an option: \n " +
-                    "1. List all owed \n " +
-                    "2. List transactions for a singular name \n " +
-                    "3. Import a file \n " +
-                    "Q. Exit the application");
-                WriteSeparator();
-
-                string input = Console.ReadLine();
-                WriteSeparator();
-                if (input == "1")
-                {
-                    return UserChoice.All;
-                }
-                else if (input == "2")
-                {
-                    return UserChoice.Account;
-                }
-                else if (input == "3")
-                {
-                    return UserChoice.Import;
-                }
-                else if (input == "Q")
-                {
-                    return UserChoice.Exit;
-                }
-                else
-                {
-                    Console.WriteLine("Invalid selection, please try again.");
-                }
-            }
-        }
-
-        public UserSelectParser PromptParserSelection()
-        {
-            while (true)
-            {
-                Console.WriteLine("File type not recognised, please select a parser: \n " +
-                    "1. JSON \n " +
-                    "2. CSV \n " +
-                    "3. XML \n " +
-                    "Q. Exit Selection and Return to Menu");
-
-                WriteSeparator();
-
-                string input = Console.ReadLine();
-                WriteSeparator();
-                if (input == "1" || input == "JSON")
-                {
-                    return UserSelectParser.JSON;
-                }
-                else if (input == "2" || input == "CSV")
-                {
-                    return UserSelectParser.CSV;
-                }
-                else if (input == "3" || input == "XML")
-                {
-                    return UserSelectParser.XML;
-                }
-                else if (input == "Q")
-                {
-                    return UserSelectParser.Return;
-                }
-                else
-                {
-                    Console.WriteLine("Invalid selection, please try again.");
-                }
-            }
         }
 
         public string AskForInput(string message)
