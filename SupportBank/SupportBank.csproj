@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConsoleInterface.cs" />
+    <Compile Include="Models\UserSelectParser.cs" />
     <Compile Include="Parsers\Parser.cs" />
     <Compile Include="Parsers\JSONParser.cs" />
     <Compile Include="Parsers\ParserSelector.cs" />

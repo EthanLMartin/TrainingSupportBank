@@ -19,21 +19,7 @@ namespace SupportBank
         {
             LoggerSetup();
 
-            string directory = @"\Work\Training\SupportBank\Files\Transactions2012.xml";
-            //string directory = @"\Work\Training\SupportBank\Files\Transactions2013.json";
-            //string directory = @"\Work\Training\SupportBank\Files\Transactions2014.csv";
-            //string directory = @"\Work\Training\SupportBank\Files\DodgyTransactions2015.csv";
-
-            //CSVParser parserCSV = new CSVParser();
-            //List<Transaction> transactions = parserCSV.ParseFile(directory);
-
-            //JSONParser parserJSON = new JSONParser();
-            //List<Transaction> transactions = parserJSON.ParseFile(directory);
-
-            XMLParser parserXML = new XMLParser();
-            List<Transaction> transactions = parserXML.ParseFile(directory);
-
-            TransactionsRepository transactionRepository = new TransactionsRepository(transactions);
+            TransactionsRepository transactionRepository = new TransactionsRepository();
 
             while (true)
             {
@@ -42,7 +28,7 @@ namespace SupportBank
                 switch (selection)
                 {
                     case UserChoice.All:
-                        promptHandler.DisplayAllOwed(transactionRepository.GetUpdatedAccounts());
+                        promptHandler.DisplayAllOwed(transactionRepository.GetAccounts());
                         break;
 
                     case UserChoice.Account:
@@ -52,10 +38,10 @@ namespace SupportBank
                         break;
 
                     case UserChoice.Import:
-                        TransactionsRepository attemptedRepo = ImportFile();
-                        if (attemptedRepo != null)
+                        List<Transaction> attemptedImport = ImportFile();
+                        if (attemptedImport != null)
                         {
-                            transactionRepository = attemptedRepo;
+                            transactionRepository.AddTransactions(attemptedImport);
                         }
                         break;
 
@@ -77,26 +63,24 @@ namespace SupportBank
             LogManager.Configuration = config;
         }
         
-        static TransactionsRepository ImportFile()
+        static List<Transaction> ImportFile()
         {
             string directory = promptHandler.AskForInput("Please input a file for import");
+
             if (File.Exists(directory))
             {
                 ParserSelector parserSelector = new ParserSelector();
                 IParser parser = parserSelector.SelectParser(directory);
-                if (parser == null)
+                if (parser != null)
                 {
-                    Console.WriteLine("Extension not recognised, please try again.");
-                    logger.Log(LogLevel.Debug, "Extension type of " + directory + " is not recognised");
-                } else
-                {
-                    return new TransactionsRepository(parser.ParseFile(directory));
+                    return parser.ParseFile(directory);
                 }
             }
             else
             {
-                Console.WriteLine("File not found please try again");
+                Console.WriteLine("File not found, retuning to menu");
             }
+
             return null;
         }
     }

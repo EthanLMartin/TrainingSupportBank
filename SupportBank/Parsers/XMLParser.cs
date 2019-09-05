@@ -16,9 +16,21 @@ namespace SupportBank
         {
             logger.Log(LogLevel.Debug, "Reading file: " + directory);
             List<Transaction> transactions = new List<Transaction>();
+            XDocument data = new XDocument();
 
-            XDocument data = XDocument.Load(directory);
-            var transactionData = data.Descendants("SupportTransaction");
+            try
+            {
+                data = XDocument.Load(directory);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error reading file.");
+                logger.Log(LogLevel.Error, e);
+                logger.Log(LogLevel.Error, "Error parsing " + directory + " as XML file");
+                return transactions;
+            }
+
+            IEnumerable<XElement> transactionData = data.Descendants("SupportTransaction");
 
             foreach (XElement transaction in transactionData)
             {
@@ -29,6 +41,7 @@ namespace SupportBank
                 catch (Exception e)
                 {
                     logger.Log(LogLevel.Error, "Error in entry of XML file " + directory + "\n Error message: " + e);
+                    Console.WriteLine("Error found in XML file, please fix");
                 }
             }
             logger.Log(LogLevel.Debug, "File reading finished. Sucessfully read "+ transactions.Count.ToString() + " transactions.");
@@ -39,6 +52,7 @@ namespace SupportBank
         private Transaction ParseXElement(XElement node)
         {
             Transaction transaction = new Transaction();
+
             transaction.date = ParseXMLDate(node.Attribute("Date").Value);
 
             XElement parties = node.Descendants("Parties").FirstOrDefault();
@@ -53,8 +67,7 @@ namespace SupportBank
 
         private DateTime ParseXMLDate(string days)
         {
-            DateTime date = DateTime.Parse("01/01/1900");
-            return (date.AddDays(Convert.ToInt32(days) - 2));
+            return DateTime.FromOADate(Convert.ToInt32(days));
         }
     }
 }

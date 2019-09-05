@@ -18,17 +18,17 @@ namespace SupportBank
             switch (extension)
             {
                 case ".json":
-                    parser = CreateParser(UserChoice.JSON);
+                    parser = CreateParser(UserSelectParser.JSON);
                     break;
                 case ".csv":
-                    parser = CreateParser(UserChoice.CSV);
+                    parser = CreateParser(UserSelectParser.CSV);
                     break;
                 case ".xml":
-                    parser = CreateParser(UserChoice.XML);
+                    parser = CreateParser(UserSelectParser.XML);
                     break;
                 default:
-                    UserChoice choice = consoleInterface.PromptParserSelection();
-                    if (choice != UserChoice.Exit)
+                    UserSelectParser choice = consoleInterface.PromptParserSelection();
+                    if (choice != UserSelectParser.Return)
                     {
                         parser = CreateParser(choice);
                     }
@@ -38,15 +38,15 @@ namespace SupportBank
             return parser;
         }
 
-        private IParser CreateParser(UserChoice choice)
+        private IParser CreateParser(UserSelectParser choice)
         {
             switch (choice)
             {
-                case UserChoice.JSON:
+                case UserSelectParser.JSON:
                     return new JSONParser();
-                case UserChoice.CSV:
+                case UserSelectParser.CSV:
                     return new CSVParser();
-                case UserChoice.XML:
+                case UserSelectParser.XML:
                     return new XMLParser();
             }
             return null;

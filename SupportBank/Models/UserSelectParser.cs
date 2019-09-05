@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace SupportBank
 {
-    public enum UserChoice
+    public enum UserSelectParser
     {
-        All,
-        Account,
-        Import,
-        Exit
+        JSON,
+        CSV,
+        XML,
+        Return
     }
 }

@@ -9,31 +9,27 @@ namespace SupportBank
     public class Account
     {
         public string Name { get; set; }
-        public decimal? Balance { get; private set; } = null;
+        public decimal Balance { get; private set; } = 0;
 
         public Account(string name) {
             this.Name = name;
         }
 
-        public decimal? ProcessTransactions(List<Transaction> transactions)
+        public decimal ProcessTransactions(List<Transaction> transactions)
         {
-            if (Balance == null)
+            foreach (Transaction transaction in transactions)
             {
-                Balance = 0;
-                foreach (Transaction transaction in transactions)
+                if (transaction.from == Name)
                 {
-                    if (transaction.from == Name)
-                    {
-                        Balance -= transaction.amount;
-                    }
-                    if (transaction.to == Name)
-                    {
-                        Balance += transaction.amount;
-                    }
+                    Balance -= transaction.amount;
+                }
+                if (transaction.to == Name)
+                {
+                    Balance += transaction.amount;
                 }
             }
 
-            return this.Balance;
+            return Balance;
         }
     }
 }

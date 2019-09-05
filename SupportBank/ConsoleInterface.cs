@@ -49,6 +49,15 @@ namespace SupportBank
                 Console.WriteLine(TransactionString(transaction ,fromGap, toGap, narrativeGap));
             }
         }
+
+        public void DisplayAllOwed(List<Account> accounts)
+        {
+            foreach (Account account in accounts)
+            {
+                Console.WriteLine(account.Name + " is owed: " + account.Balance.ToString());
+            };
+        }
+
         public UserChoice PromptMenuSelection()
         {
             while (true)
@@ -85,28 +94,7 @@ namespace SupportBank
             }
         }
 
-        public void WriteSeparator()
-        {
-            Console.WriteLine("-----------------");
-        }
-
-        public void DisplayAllOwed(List<Account> accounts)
-        {
-            foreach (Account account in accounts)
-            {
-                Console.WriteLine(account.Name + " is owed: " + account.Balance.ToString());
-            };
-        }
-
-        public string AskForInput(string message)
-        {
-            Console.WriteLine(message);
-            string input = Console.ReadLine();
-            WriteSeparator();
-            return input;
-        }
-
-        public UserChoice PromptParserSelection()
+        public UserSelectParser PromptParserSelection()
         {
             while (true)
             {
@@ -122,25 +110,38 @@ namespace SupportBank
                 WriteSeparator();
                 if (input == "1" || input == "JSON")
                 {
-                    return UserChoice.JSON;
+                    return UserSelectParser.JSON;
                 }
                 else if (input == "2" || input == "CSV")
                 {
-                    return UserChoice.CSV;
+                    return UserSelectParser.CSV;
                 }
                 else if (input == "3" || input == "XML")
                 {
-                    return UserChoice.XML;
+                    return UserSelectParser.XML;
                 }
                 else if (input == "Q")
                 {
-                    return UserChoice.Exit;
+                    return UserSelectParser.Return;
                 }
                 else
                 {
                     Console.WriteLine("Invalid selection, please try again.");
                 }
             }
+        }
+
+        public string AskForInput(string message)
+        {
+            Console.WriteLine(message);
+            string input = Console.ReadLine();
+            WriteSeparator();
+            return input;
+        }
+
+        public void WriteSeparator()
+        {
+            Console.WriteLine("-----------------");
         }
     }
 }
