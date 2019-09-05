@@ -9,13 +9,13 @@ namespace SupportBank
     public class Account
     {
         public string Name { get; set; }
-        public double? Balance { get; private set; } = null;
+        public decimal? Balance { get; private set; } = null;
 
         public Account(string name) {
             this.Name = name;
         }
 
-        public double? ProcessTransactions(List<Transaction> transactions)
+        public decimal? ProcessTransactions(List<Transaction> transactions)
         {
             if (Balance == null)
             {

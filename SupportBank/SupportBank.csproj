@@ -58,6 +58,7 @@
     <Compile Include="Parsers\Parser.cs" />
     <Compile Include="Parsers\JSONParser.cs" />
     <Compile Include="Parsers\ParserSelector.cs" />
+    <Compile Include="Parsers\XMLParser.cs" />
     <Compile Include="TransactionsRepository.cs" />
     <Compile Include="Models\Account.cs" />
     <Compile Include="Parsers\CSVParser.cs" />

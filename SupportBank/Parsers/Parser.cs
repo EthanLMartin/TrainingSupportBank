@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SupportBank
 {
-    interface Parser 
+    interface IParser 
     {
         List<Transaction> ParseFile(string directory);
     }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SupportBank
 {
-    class CSVParser : Parser
+    class CSVParser : IParser
     {
         private static readonly ILogger logger = LogManager.GetCurrentClassLogger();
         public List<Transaction> ParseFile(string directory)
@@ -60,7 +60,7 @@ namespace SupportBank
 
             try
             {
-                transaction.amount = Convert.ToDouble(data[4]);
+                transaction.amount = Convert.ToDecimal(data[4]);
             }
             catch
             {

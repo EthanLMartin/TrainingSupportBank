@@ -19,15 +19,19 @@ namespace SupportBank
         {
             LoggerSetup();
 
-            string directory = @"\Work\Training\SupportBank\Files\Transactions2013.json";
+            string directory = @"\Work\Training\SupportBank\Files\Transactions2012.xml";
+            //string directory = @"\Work\Training\SupportBank\Files\Transactions2013.json";
             //string directory = @"\Work\Training\SupportBank\Files\Transactions2014.csv";
             //string directory = @"\Work\Training\SupportBank\Files\DodgyTransactions2015.csv";
 
             //CSVParser parserCSV = new CSVParser();
             //List<Transaction> transactions = parserCSV.ParseFile(directory);
 
-            JSONParser parserJSON = new JSONParser();
-            List<Transaction> transactions = parserJSON.ParseFile(directory);
+            //JSONParser parserJSON = new JSONParser();
+            //List<Transaction> transactions = parserJSON.ParseFile(directory);
+
+            XMLParser parserXML = new XMLParser();
+            List<Transaction> transactions = parserXML.ParseFile(directory);
 
             TransactionsRepository transactionRepository = new TransactionsRepository(transactions);
 
@@ -79,7 +83,7 @@ namespace SupportBank
             if (File.Exists(directory))
             {
                 ParserSelector parserSelector = new ParserSelector();
-                Parser parser = parserSelector.SelectParser(directory);
+                IParser parser = parserSelector.SelectParser(directory);
                 if (parser == null)
                 {
                     Console.WriteLine("Extension not recognised, please try again.");

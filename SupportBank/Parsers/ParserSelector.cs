@@ -9,10 +9,10 @@ namespace SupportBank
 {
     class ParserSelector
     {
-        public Parser SelectParser(string directory)
+        public IParser SelectParser(string directory)
         {
             string extension = Path.GetExtension(directory);
-            Parser parser = null;
+            IParser parser = null;
 
             switch (extension)
             {
@@ -25,7 +25,7 @@ namespace SupportBank
                 default:
                     break;
             }
-
+            
             return parser;
         }
     }

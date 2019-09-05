@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SupportBank
 {
-    class JSONParser : Parser
+    class JSONParser : IParser
     {
         private static readonly ILogger logger = LogManager.GetCurrentClassLogger();
         public List<Transaction> ParseFile(string directory)

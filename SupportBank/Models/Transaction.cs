@@ -22,6 +22,6 @@ namespace SupportBank
         public string narrative;
 
         [JsonProperty("Amount")]
-        public double amount;
+        public decimal amount;
     }
 }
